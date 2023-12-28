@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import environ
+environ.Env.read_env('.env')
 
 env = environ.Env()
 
@@ -45,7 +46,6 @@ INSTALLED_APPS = [
     'django_filters',
     
     'employee',
-    'common',
 ]
 
 MIDDLEWARE = [

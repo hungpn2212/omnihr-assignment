@@ -3,7 +3,6 @@ class EmployeeColumn:
     LAST_NAME = 'last_name'
     EMAIL = 'email'
     PHONE_NUMBER = 'phone_number'
-    COMPANY = 'company'
     DEPARTMENT = 'department'
     POSITION = 'position'
     LOCATION = 'location'
@@ -15,7 +14,6 @@ class EmployeeColumn:
             cls.LAST_NAME,
             cls.EMAIL,
             cls.PHONE_NUMBER,
-            cls.COMPANY,
             cls.DEPARTMENT,
             cls.POSITION,
             cls.LOCATION,
