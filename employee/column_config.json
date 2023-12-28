@@ -1,0 +1,30 @@
+[
+    {
+        "order": 1,
+        "column": "first_name"
+    },
+    {
+        "order": 2,
+        "column": "last_name"
+    },
+    {
+        "order": 3,
+        "column": "contact_info"
+    },
+    {
+        "order": 4,
+        "column": "department"
+    },
+    {
+        "order": 5,
+        "column": "position"
+    },
+    {
+        "order": 6,
+        "column": "location"
+    },
+    {
+        "order": 7,
+        "column": "status"
+    }
+]
