@@ -14,7 +14,10 @@ from pathlib import Path
 import environ
 environ.Env.read_env('.env')
 
-env = environ.Env()
+env = environ.Env(
+    TIME_WINDOW=(int, 60),
+    RATE_LIMIT=(int, 20),
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
     'django_filters',
     
     'employee',
+    'common',
 ]
 
 MIDDLEWARE = [
@@ -84,6 +88,16 @@ WSGI_APPLICATION = 'omnihr.wsgi.application'
 
 DATABASES = {
     'default': env.db(),
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': env('CACHE_URL'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+    }
 }
 
 
@@ -129,3 +143,8 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+RATE_LIMIT = env('RATE_LIMIT')
+
+TIME_WINDOW = env('TIME_WINDOW')

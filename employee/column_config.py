@@ -8,7 +8,7 @@ class EmployeeColumn:
     LOCATION = 'location'
     
     @classmethod
-    def get_all_columns(cls):
+    def get_ui_columns(cls):
         return (
             cls.FIRST_NAME,
             cls.LAST_NAME,

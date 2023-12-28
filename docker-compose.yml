@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  employee-api:
+    build:
+      dockerfile: .Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    env_file:
+      - .env
+    command: ./manage.py runserver
+  postgres:
+    image: bitnami/postgresql:14.10.0-debian-11-r17
+    environment:
+      POSTGRES_DB: omnihr
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "127.0.0.1:15432:5432"
+  redis:
+    image: bitnami/redis
+    ports:
+      - "127.0.0.1:16379:6379"

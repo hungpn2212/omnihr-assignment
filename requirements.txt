@@ -1,3 +1,5 @@
 django
 djangorestframework
-django-filter
+factory_boy
+pytest
+django-redis
