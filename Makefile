@@ -8,3 +8,5 @@ test:
 	docker-compose -f local.yml run --rm django pytest .
 initdata:
 	docker-compose run -rm django python manage.py init_employee_data
+generatedocs:
+	python manage.py spectacular --color --file schema.yml

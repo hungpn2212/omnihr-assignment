@@ -7,21 +7,16 @@ import random
 class Command(BaseCommand):
     def __init__(
         self,
-        stdout,
-        stderr,
-        no_color,
-        force_color,
+        **kwargs
     ) -> None:
-        super().__init__(stdout, stderr, no_color, force_color)
+        super().__init__(**kwargs)
         self.faker = Faker()
         
     def handle(self, *args: Any, **options: Any):
         department_objs = []
         position_objs = []
         
-        org = Organization({
-            'name': self.faker.company(),
-        })
+        org = Organization(dict(name=self.faker.company()))
         org.save()
         self.stdout.write('Created a fake org with id {} and name {}'.format(
             org.id, org.name,

@@ -7,3 +7,4 @@ django-environ
 psycopg2
 faker
 pytest-django
+drf-spectacular
