@@ -3,6 +3,7 @@ from django.core.management import BaseCommand
 from faker import Faker
 from employee.models import Department, Position, Employee, Organization
 import random
+import factory
 
 class Command(BaseCommand):
     def __init__(
@@ -16,7 +17,7 @@ class Command(BaseCommand):
         department_objs = []
         position_objs = []
         
-        org = Organization(dict(name=self.faker.company()))
+        org = Organization(name=self.faker.company())
         org.save()
         self.stdout.write('Created a fake org with id {} and name {}'.format(
             org.id, org.name,
@@ -25,13 +26,13 @@ class Command(BaseCommand):
         for _ in range(50):
             department_objs.append(
                 Department(
-                    dict(name=self.faker.department())
+                    **dict(name=factory.Faker('department'))
                 )
             )
             
             position_objs.append(
                 Position(
-                    dict(name=self.faker.job())
+                    **dict(name=self.faker.job())
                 )
             )
         
@@ -41,11 +42,11 @@ class Command(BaseCommand):
         objs = []
         for _ in range(100000):
             objs.append(Employee(
-                dict(
+                **dict(
                     first_name=self.faker.first_name(),
                     last_name=self.faker.last_name(),
                     email=self.faker.email,
-                    phone_number=self.faker.phone_number(),
+                    phone_number=self.faker.pyint(),
                     department_id=random.randint(1, 50),
                     position_id=random.randint(1, 50),
                     location=self.faker.country_code(),
