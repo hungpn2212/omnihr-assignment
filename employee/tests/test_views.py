@@ -29,20 +29,22 @@ class EmployeeViewTestCase(APITestCase):
         
         response = self.client.get(self.base_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
+        expected_data = [
+            {
+                'id': employee.id,
+                'first_name': employee.first_name,
+                'last_name': employee.last_name,
+                'email': employee.email,
+                'phone_number': employee.phone_number,
+                'location': employee.location,
+                'status': employee.status,
+                'department_name': employee.department.name,
+                'position_name': employee.position.name,
+            } for employee in employees
+        ]
         self.assertCountEqual(
-            response.data,
-            [
-                {
-                    'id': employee.id,
-                    'first_name': employee.first_name,
-                    'last_namae': employee.last_name,
-                    'email': employee.email,
-                    'phone_number': employee.phone_number,
-                    'location': employee.location,
-                    'status': employee.status,
-                } for employee in employees
-            ]
+            response.data['results'],
+            expected_data,
         )
         
     def test_list_employees__filter_by_department(self):
@@ -58,27 +60,27 @@ class EmployeeViewTestCase(APITestCase):
         }
         
         response = self.client.get(self.base_url, query_params)
-        self.assertEqual(response.status_code, status.HTTP_200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        ids = [item['id'] for item in response.data]
+        ids = [item['id'] for item in response.data['results']]
         self.assertCountEqual(ids, [employee1.id, employee2.id])
         
-    def test_list_employees__filter_by_localtion(self):
+    def test_list_employees__filter_by_position(self):
         position1, position2 = PositionFactory.create_batch(2)
         employees = EmployeeFactory.create_batch(
             3,
             org=self.org,
-            department=factory.Iterator([position1, position2, position2]),
+            position=factory.Iterator([position1, position2, position2]),
         )
         
         query_params = {
-            'department': position1.name
+            'position': position1.name
         }
         
         response = self.client.get(self.base_url, query_params)
-        self.assertEqual(response.status_code, status.HTTP_200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        ids = [item['id'] for item in response.data]
+        ids = [item['id'] for item in response.data['results']]
         self.assertEqual(ids, [employees[0].id])
         
     def test_list_employees__filter_by_status(self):
@@ -93,18 +95,19 @@ class EmployeeViewTestCase(APITestCase):
         }
         
         response = self.client.get(self.base_url, query_params)
-        self.assertEqual(response.status_code, status.HTTP_200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        ids = [item['id'] for item in response.data]
+        ids = [item['id'] for item in response.data['results']]
         self.assertCountEqual(ids, [employee1.id, employee2.id])
         
     def test_list_employees__filter_by_location(self):
-        location1, location2 = 'VN', 'US'
+        location1 = 'VN'
+        location2 = 'US'
         
-        _, employee1, employee2 = EmployeeFactory.create_batch(
+        employee1, employee2, _ = EmployeeFactory.create_batch(
             3,
             org=self.org,
-            status=factory.Iterator([location2, location1, location1]),
+            location=factory.Iterator([location1, location1, location2]),
         )
         
         query_params = {
@@ -112,13 +115,13 @@ class EmployeeViewTestCase(APITestCase):
         }
         
         response = self.client.get(self.base_url, query_params)
-        self.assertEqual(response.status_code, status.HTTP_200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        ids = [item['id'] for item in response.data]
+        ids = [item['id'] for item in response.data['results']]
         self.assertCountEqual(ids, [employee1.id, employee2.id])
         
     def test_list_employees__filter_by_multiple_params(self):
-        department1, department2 = DepartmentFactory.create_batch
+        department1, department2 = DepartmentFactory.create_batch(2)
         position1, position2 = PositionFactory.create_batch(2)
         location1, location2 = 'VN', 'US'
         
@@ -139,7 +142,7 @@ class EmployeeViewTestCase(APITestCase):
         }
         
         response = self.client.get(self.base_url, query_params)
-        self.assertEqual(response.status_code, status.HTTP_200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         
-        ids = [item['id'] for item in response.data]
+        ids = [item['id'] for item in response.data['results']]
         self.assertEqual(ids, [employee1.id])

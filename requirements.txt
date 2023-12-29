@@ -5,3 +5,5 @@ pytest
 django-redis
 django-environ
 psycopg2
+faker
+pytest-django

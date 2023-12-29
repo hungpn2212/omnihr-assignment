@@ -44,9 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'rest_framework',
-    
+
     'employee',
     'common',
 ]
@@ -148,3 +147,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 RATE_LIMIT = env('RATE_LIMIT')
 
 TIME_WINDOW = env('TIME_WINDOW')
+
+DJANGO_SETTINGS_MODULE = 'omnihr.settings'

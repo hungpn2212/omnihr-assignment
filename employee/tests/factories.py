@@ -1,4 +1,5 @@
 import factory
+import factory.fuzzy
 
 from employee.models import (
     Department,
@@ -35,13 +36,13 @@ class EmployeeFactory(factory.django.DjangoModelFactory):
         model = Employee
         
     org = factory.SubFactory(OrganizationFactory)
-    position = factory.SubFactory(Position)
-    department = factory.SubFactory(Department)
+    position = factory.SubFactory(PositionFactory)
+    department = factory.SubFactory(DepartmentFactory)
     
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
-    country = factory.Faker('country_code', representation='alpha-2')
-    phone_number = factory.Faker('phone_number')
+    location = factory.Faker('country_code', representation='alpha-2')
+    phone_number = factory.Faker('pyint')
     email = factory.Faker('email')
     status = factory.fuzzy.FuzzyChoice(
         x[0] for x in STATUS_CHOICES

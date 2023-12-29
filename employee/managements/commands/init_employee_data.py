@@ -15,7 +15,7 @@ class Command(BaseCommand):
         super().__init__(stdout, stderr, no_color, force_color)
         self.faker = Faker()
         
-    def handle(self, *args: Any, **options: Any) -> str | None:
+    def handle(self, *args: Any, **options: Any):
         department_objs = []
         position_objs = []
         

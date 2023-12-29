@@ -21,8 +21,7 @@ class EmployeeViewSet(ListModelMixin, viewsets.GenericViewSet):
         queryset = super().get_queryset()
         return queryset.filter(org_id=self.kwargs['org_id'])
     
-    def filter_queryset(self, request, args, kwargs):
-        qs = self.get_queryset()
+    def filter_queryset(self, qs):
         mappings = {
             'status': 'status',
             'location': 'location',
@@ -31,7 +30,7 @@ class EmployeeViewSet(ListModelMixin, viewsets.GenericViewSet):
         }
         
         for key, value in mappings.items():
-            filter_values = request.query_params.getlist(key)
+            filter_values = self.request.query_params.getlist(key)
             if filter_values:
                 qs = qs.filter(
                     Q(**{f'{value}__in': filter_values})
