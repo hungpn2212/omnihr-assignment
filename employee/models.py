@@ -10,15 +10,15 @@ STATUS_CHOICES = (
 )
 class Employee(models.Model):
     org = models.ForeignKey(
-        'auth.Organization', related_name='employees',
+        'employee.Organization', related_name='employees',
         on_delete=models.CASCADE,
     )
     department = models.ForeignKey(
-        'employees.Department', related_name='department_employees',
+        'employee.Department', related_name='department_employees',
         on_delete=models.SET_NULL, null=True
     )
     position = models.ForeignKey(
-        'employees.Position', related_name='position_employees',
+        'employee.Position', related_name='position_employees',
         on_delete=models.SET_NULL, null=True
     )
     

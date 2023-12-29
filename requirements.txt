@@ -3,3 +3,5 @@ djangorestframework
 factory_boy
 pytest
 django-redis
+django-environ
+psycopg2

@@ -13,11 +13,15 @@ services:
   postgres:
     image: bitnami/postgresql:14.10.0-debian-11-r17
     environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: omnihr
-      POSTGRES_PASSWORD: postgres
     ports:
       - "127.0.0.1:15432:5432"
+    command: "-c fsync=off -c synchronous_commit=off -c full_page_writes=off -c random_page_cost=1.0"
   redis:
-    image: bitnami/redis
+    image: redis:4.0
+    environment:
+      ALLOW_EMPTY_PASSWORD: yes
     ports:
       - "127.0.0.1:16379:6379"
